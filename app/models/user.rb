@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
                   :roles,
                   :rss,
                   :scopes,
+                  :tips,
                   :validation
 
   # After adding a new locale, run "rake import:country_select 'de'" where de is your locale.

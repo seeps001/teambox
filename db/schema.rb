@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.integer  "avatar_file_size"
     t.integer  "invited_by_id"
     t.integer  "invited_count",                              :default => 0,     :null => false
+    t.string   "read_tips",                                  :default => "0",   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "wants_task_reminder",                        :default => true
