@@ -6,12 +6,6 @@ module CommentsHelper
       key << '-destructable' if comment.can_destroy?(current_user)
     }, &block)
   end
-
-  def comment_form_for(form_url,&proc)
-    form_for form_url,
-      :html => {:update_id => js_id(nil,Comment.new)},
-      &proc
-  end
   
   def convert_comment_form_for(comment,&proc)
     form_for [comment.project,comment],

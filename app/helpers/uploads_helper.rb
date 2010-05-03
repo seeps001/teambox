@@ -19,25 +19,8 @@ module UploadsHelper
     link_to_function content_tag(:span,"Files"), show_upload_form(comment), :class => 'add_button', :id => 'comment_upload_link'
   end
 
-  def upload_iframe_form(comment)
-    render :partial => 'uploads/iframe_upload', 
-    :locals => { 
-      :comment => comment }    
-  end
-
   def upload_form(project,upload)
     render :partial => 'uploads/form', :locals => { :project => project, :upload => upload }
-  end
-
-  def show_upload(upload)
-    # TODO: Find why some uploads get saved as with :file_type => nil
-    if upload and upload.file_type
-      render :partial => 'uploads/upload', :locals => { :project => upload.project, :upload => upload }
-    end
-  end
-
-  def list_uploads(project,uploads)
-    render :partial => 'uploads/upload', :collection => uploads, :as => :upload, :locals => { :project => project }    
   end
 
   def edit_upload_form(project,upload)
@@ -52,24 +35,14 @@ module UploadsHelper
       :upload => upload }
   end
 
-  def upload_link(project,upload)
-    if upload.file_name.length > 40
-      file_name = upload.file_name.sub(/^.+\./,truncate(upload.file_name,38,'~.'))
-    else
-      file_name = upload.file_name
-    end  
-
-    link_to file_name, upload.url, :class => 'upload_link', :rel => (upload.image? ? 'facebox' : nil)
+  def link_to_upload(upload, text, attributes = {})
+    link_to(h(text), upload.url, {:rel => (upload.image? ? 'facebox' : nil)}.merge(attributes))
   end
     
   def upload_link_with_thumbnail(upload)
     link_to image_tag(upload.asset(:thumb)),
       upload.url,
       :class => 'link_to_upload', :rel => 'facebox'
-  end
-
-  def upload_area(comment)
-    render :partial => 'uploads/upload_area', :locals => {:comment => comment }
   end
 
   def show_upload_form(comment)
@@ -87,28 +60,12 @@ module UploadsHelper
         :project => comment.project }
   end
   
-  def upload_form_url_for(comment)
+  def upload_action_url(comment)
     if comment.new_record?
       project_uploads_url(comment.project)
     else
       project_comment_uploads_url(comment.project,comment)
     end
-  end
-  
-  def page_upload_form_url_for(page)
-    project_page_uploads_url(page.project, page)
-  end
-  
-  def upload_url_for(comment)
-    if comment.new_record?
-      new_project_upload_url(comment.project)
-    else
-      new_project_comment_upload_url(comment.project,comment)
-    end
-  end
-
-  def page_upload_url_for(page)
-    new_project_page_upload_path(page.project, page)
   end
   
   def page_upload_actions_link(page, upload)
@@ -162,15 +119,7 @@ module UploadsHelper
       link_to_function 'Remove', delete_upload(upload,target), :class => 'remove'
     end
   end
-  
-  def destroy_upload_link(project,upload)
-    link_to_remote t('.remove'),
-      :url => project_upload_path(project,upload),
-      :method => :delete,
-      :confirm => t('confirm.delete_upload'),
-      :html => { :class => 'remove' }
-  end
-  
+
   def destroy_page_upload_link(page, upload)
     link_to_remote trash_image,
       :url => project_page_upload_url(page.project,page,upload),

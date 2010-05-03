@@ -5,16 +5,15 @@ class Comment < ActiveRecord::Base
   concerned_with :associations,
                  :callbacks,
                  :tasks,
-                 :finders,
-                 :uploads
-    
-  attr_accessible :body, :user_id, :target_attributes
+                 :finders
+
+  attr_accessible :body, :user_id, :target_attributes, :status, :previous_status,
+                  :assigned, :previous_assigned, :hours
 
   formats_attributes :body
 
   named_scope :with_hours, :conditions => 'hours > 0'
 
-  attr_accessible :status, :previous_status, :assigned, :previous_assigned, :hours
   validate :check_body
 
   attr_accessor :mentioned # used by format_usernames to set who's being mentioned

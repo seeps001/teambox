@@ -224,4 +224,17 @@ describe Comment do
       comment.mentioned.should == nil
     end
   end
+
+  context "uploads" do
+    it "should link existing upload" do
+      upload = Factory.create :upload
+      comment = Factory.create :comment, :upload_ids => [upload.id.to_s],
+        :body => 'Here is that cat video I promised'
+
+      comment.uploads.should == [upload]
+      upload.reload
+      upload.comment.should == comment
+      upload.description.should == 'Here is that cat video I promised'
+    end
+  end
 end

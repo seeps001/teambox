@@ -1,4 +1,4 @@
-- comment_form_for(form_url) do |f|
+- form_for form_url, :html => {:update_id => js_id(nil,Comment.new), :multipart => true, :method => :post} do |f|
   = hidden_field_tag :original_controller, controller_name
   .body.text_area
     = comment_text_area(f, target)
@@ -7,7 +7,7 @@
   .extra
     - if comment.project
       = the_comment_upload_link(comment)
-      = upload_area(comment)
+      = render 'uploads/upload_area', :comment => comment, :form => f
     - if target
       = last_comment_input
       - if target.is_a?(Task)
@@ -33,8 +33,6 @@
           .status.rejected#status_rejected
             = f.radio_button :status, Task::STATUSES[:rejected]
             = t('tasks.status.rejected')
-          = javascript_tag "$$('.statuses input').each(function(e){ if (e.checked) { e.up('.status').addClassName('active') }; })"
-          = javascript_tag "Comment.watch_status();"
     .submit{ :id => js_id(:new_submit,Comment.new) }
       %span.showPreview
         %button{}

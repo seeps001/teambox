@@ -1,1 +1,9 @@
-= render :partial => 'uploads/new', :locals => { :upload => @upload, :comment => @comment, :page => @page }
+= error_messages_for :upload
+- url = @page ? project_page_uploads_url(@page.project, @page) : upload_action_url(@comment)
+
+- form_for @upload, :url => url, :html => { :multipart => true, :method => :post } do |f|
+  - if @page
+    = page_slot_fields(nil, @insert_id, @insert_before ? '1' : '0')
+  .file
+    = t('.select_a_file')
+    = f.file_field :asset, :size => 25, :id => 'upload_file'
