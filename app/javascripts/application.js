@@ -57,46 +57,46 @@ replace_ids = function(s){
 
 Event.addBehavior({
   ".remove:mouseover": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/remove.*\.png/,'remove_hover.png')
   },
   ".remove:mouseout": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/remove.*\.png/,'remove.png')
   },
   ".drag:mouseover": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/drag.*\.png/,'drag_hover.png')
   },
   ".drag:mouseout": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/drag.*\.png/,'drag.png')
   },
   ".pencil:mouseover": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/pencil.*\.jpg/,'pencil_hover.jpg')
   },
   ".pencil:mouseout": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/pencil.*\.jpg/,'pencil.jpg')
   },
   ".trash:mouseover": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/trash.*\.jpg/,'trash_hover.jpg')
   },
   ".trash:mouseout": function(e){
-    image_source = $(this).src
+    var image_source = $(this).src
     $(this).src = image_source.sub(/trash.*\.jpg/,'trash.jpg')
   },
   ".add_nested_item:click": function(e){
-    link = $(this);
-    template = eval(link.href.replace(/.*#/, ''))
+    var link = $(this);
+    var template = eval(link.href.replace(/.*#/, ''))
+    console.log(template);
     $(link.rel).insert({ bottom: replace_ids(template) });
-    Event.addBehavior.reload();
   },
   ".remove_nested_item:click": function(e){
-    link = $(this);
-    target = link.href.replace(/.*#/, '.')
+    var link = $(this);
+    var target = link.href.replace(/.*#/, '.')
     link.up(target).hide();
     if(hidden_input = link.previous("input[type=hidden]")) hidden_input.value = '1'
   }

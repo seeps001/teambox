@@ -7,6 +7,8 @@
       Teambox
     = stylesheet_link_tag 'sessions'
     = sprockets_include_tag
+    - javascript_tag do
+      = yield :js_templates
 
   %body{ :class => "#{location_name} #{I18n.locale} #{ENV['RAILS_ENV']}"}
     = javascript_include_tag 'modernizr'

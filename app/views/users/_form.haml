@@ -70,8 +70,11 @@
   .description.text_area
     = f.label :biography, t('.biography')
     = f.text_area :biography
-
+  
   = list_card_fields(f,%w(phone_numbers email_addresses websites addresses ims social_networks))
+  
+- elsif user.new_record?
+  = list_card_fields(f,%w(phone_numbers))
 
 - if @sub_action == 'picture'
   %p= t(user.avatar?? '.avatar.we_have_this_avatar' : '.avatar.gravatar_in_use', :gravatar => gravatar_url)

@@ -24,6 +24,7 @@ class UsersController < ApplicationController
       redirect_to projects_path
     else
       @user = User.new
+      @user.build_card
       @user.email = @invitation.email if @invitation
 
       render :layout => 'sessions'
